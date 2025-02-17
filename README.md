@@ -1,0 +1,2 @@
+PCtoLCD2002
+通过txtToSvg.py脚本将点阵信息转换成矢量文件
