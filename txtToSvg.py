@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
-import re
 
 def get_file_content():
     """ 选择 txt 文件并读取内容 """
@@ -66,26 +65,27 @@ def parse_font_data(content):
     return binary_matrices
 
 def generate_svg(binary_matrices, file_path):
-    """ 生成 SVG 文件 """
-    cell_size = 10  # 每个点的大小
-    char_width = 12
-    char_height = 12
+    """ 生成 SVG 文件，使用圆点 """
+    dot_diameter = 8  # 圆点直径
+    dot_spacing = 10  # 每个点的间隔（点阵的间距）
+    char_width = 12 * dot_spacing
+    char_height = 12 * dot_spacing
     total_width = len(binary_matrices) * char_width
     total_height = char_height
 
     svg_elements = []
     
     for char_index, binary_matrix in enumerate(binary_matrices):
-        x_offset = char_index * char_width * cell_size  # 每个字符向右排列
+        x_offset = char_index * char_width  # 每个字符向右排列
         
         for row, line in enumerate(binary_matrix):
             for col, bit in enumerate(line):
-                if bit == '1':  # 如果是1，绘制黑色像素
-                    x = x_offset + col * cell_size
-                    y = row * cell_size
-                    svg_elements.append(f'<rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" fill="black"/>')
+                if bit == '1':  # 如果是1，绘制黑色圆点
+                    cx = x_offset + col * dot_spacing + dot_diameter / 2
+                    cy = row * dot_spacing + dot_diameter / 2
+                    svg_elements.append(f'<circle cx="{cx}" cy="{cy}" r="{dot_diameter / 2}" fill="black"/>')
 
-    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{total_width * cell_size}" height="{total_height * cell_size}">
+    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height}">
 {''.join(svg_elements)}
 </svg>'''
 
