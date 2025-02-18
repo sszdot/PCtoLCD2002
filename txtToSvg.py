@@ -3,7 +3,7 @@ from tkinter import filedialog
 import os
 
 def get_file_content():
-    """ 选择 txt 文件并读取内容 """
+    """ 选择 txt 文件并读取内容  """
     root = tk.Tk()
     root.withdraw()  # 隐藏主窗口
     
